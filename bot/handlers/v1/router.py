@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from api.handlers.v1 import echo
+from bot.handlers.v1 import echo
 
 
 router = APIRouter(prefix="/v1")

@@ -19,6 +19,8 @@ from src.keyboards.inline import (
 )
 from src.models import User, Entry
 
+__all__ = ['router']
+
 router = Router()
 
 
