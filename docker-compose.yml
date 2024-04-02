@@ -45,9 +45,23 @@ services:
     depends_on:
       - db
 
+  bot:
+    container_name: "bot"
+    command: python -m bot
+    env_file:
+      - ".env"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - "./src:/opt/src:ro"
+      - "./auth:/opt/bot:ro"
+    depends_on:
+      - db
+
   db:
     container_name: "db"
-    image: postgres:16-alpine3.19
+    image: postgres:15-alpine3.18
     hostname: "admin"
     env_file:
       - ".env"
@@ -57,9 +71,12 @@ services:
     image: nginx:1.25.3-alpine3.18
     ports:
       - "80:80"
+    env_file:
+      - ".env"
     volumes:
       - "./conf.d/app.conf:/etc/nginx/conf.d/app.conf:ro"
       - "./log:/var/log/nginx:rw"
     depends_on:
       - api
       - auth
+      - bot
