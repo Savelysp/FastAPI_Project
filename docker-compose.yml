@@ -55,7 +55,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - "./src:/opt/src:ro"
-      - "./auth:/opt/bot:ro"
+      - "./bot:/opt/bot:ro"
     depends_on:
       - db
 

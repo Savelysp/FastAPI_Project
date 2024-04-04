@@ -29,7 +29,7 @@ router = RouteTableDef()
 @router.post(path='/webhook')
 async def get_webhook(request: Request):
     try:
-        print(await request.json())
+        # print(await request.json())
         await dp.feed_raw_update(bot=bot, update=await request.json())
     except Exception as e:
         print(e)

@@ -1,8 +1,9 @@
 from datetime import datetime
+from time import time
 from typing import TYPE_CHECKING
 
 from email_validator import EmailSyntaxError
-from sqlalchemy import Column, BIGINT, VARCHAR, CheckConstraint, CHAR, BOOLEAN, ForeignKey, DATETIME, DECIMAL
+from sqlalchemy import Column, BIGINT, VARCHAR, CheckConstraint, CHAR, BOOLEAN, ForeignKey, TIMESTAMP, DECIMAL
 from sqlalchemy.orm import validates, relationship
 
 from .base import Base
@@ -29,8 +30,8 @@ class User(Base):
         entries: list["Entry"]
     else:
         id = Column(BIGINT, primary_key=True)
-        email = Column(VARCHAR(length=128), nullable=False, unique=True)
-        password = Column(CHAR(length=60), nullable=False)
+        email = Column(VARCHAR(length=128), nullable=True, unique=True)
+        password = Column(CHAR(length=60), nullable=True)
         is_admin = Column(BOOLEAN, default=False)
         entries = relationship(argument="Entry", back_populates="user")
 
@@ -48,27 +49,27 @@ class Service(Base):
         name: str
         price: float
         title: str
-        entries: list["Entry"]
+        # entries: list["Entry"]
     else:
         id = Column(BIGINT, primary_key=True)
         name = Column(VARCHAR(128), nullable=False)
         price = Column(DECIMAL(scale=2), nullable=False)
         title = Column(VARCHAR(256), nullable=False)
-        entries = relationship(argument="Entry", back_populates="service")
+        # entries = relationship(argument="Entry", back_populates="service")
 
 
 class Entry(Base):
-    __table_args__ = (
-        CheckConstraint("entry_time >= datetime.now()"),
-    )
+    # __table_args__ = (
+    #     CheckConstraint("entry_time >= now()"),
+    # )
 
     if TYPE_CHECKING:
         id: int
         user_id: int
-        service_id: int
-        entry_time: datetime
+        # service_id: int
+        entry_time: float
         user: User
-        service: Service
+        # service: Service
     else:
         id = Column(BIGINT, primary_key=True)
         user_id = Column(
@@ -80,14 +81,14 @@ class Entry(Base):
             ),
             nullable=False
         )
-        service_id = Column(
-            BIGINT,
-            ForeignKey(
-                column=Service.id, # noqa
-                ondelete="CASCADE",
-                onupdate="CASCADE"
-            )
-        )
-        entry_time = Column(DATETIME, nullable=False, unique=True)
+        # service_id = Column(
+        #     BIGINT,
+        #     ForeignKey(
+        #         column=Service.id, # noqa
+        #         ondelete="CASCADE",
+        #         onupdate="CASCADE"
+        #     )
+        # )
+        entry_time = Column(TIMESTAMP, nullable=False, unique=True)
         user = relationship(argument=User, back_populates="entries")
-        service = relationship(argument=Service, back_populates="entries")
+        # service = relationship(argument=Service, back_populates="entries")

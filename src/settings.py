@@ -47,4 +47,3 @@ bot = Bot(
     parse_mode=ParseMode.HTML
 )
 dp = Dispatcher()
-
