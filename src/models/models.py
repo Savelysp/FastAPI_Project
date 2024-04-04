@@ -1,10 +1,10 @@
-from datetime import datetime
-from time import time
+# from datetime import datetime
+# from time import time
 from typing import TYPE_CHECKING
 
-from email_validator import EmailSyntaxError
+# from email_validator import EmailSyntaxError
 from sqlalchemy import Column, BIGINT, VARCHAR, CheckConstraint, CHAR, BOOLEAN, ForeignKey, TIMESTAMP, DECIMAL
-from sqlalchemy.orm import validates, relationship
+from sqlalchemy.orm import relationship  # validates
 
 from .base import Base
 
